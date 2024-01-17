@@ -6,19 +6,24 @@ const RemainingcounterE1 = document.getElementById("Remaining-counter");
 textareaE1.addEventListener("input", updateCounter);
 
 function updateCounter() {
-    const totalCharacters = textareaE1.value.length;
+    const text = textareaE1.value;
+    const totalCharacters = countAlphabeticCharacters(text);
     const maxLength = textareaE1.getAttribute("maxlength");
     const remainingCharacters = maxLength - totalCharacters;
 
     totalcounterE1.innerText = totalCharacters;
     RemainingcounterE1.innerText = remainingCharacters;
 
-    const lastEnteredCharacter = getLastEnteredCharacter();
+    const lastEnteredCharacter = getLastEnteredCharacter(text);
     charatersEnteredE1.innerText = lastEnteredCharacter !== null ? lastEnteredCharacter : "";
 }
 
-function getLastEnteredCharacter() {
-    const text = textareaE1.value;
+function countAlphabeticCharacters(text) {
+    const alphabeticCharacterArray = text.match(/[a-zA-Z]/g) || [];
+    return alphabeticCharacterArray.length;
+}
+
+function getLastEnteredCharacter(text) {
     const lastCharacterIndex = text.length - 1;
 
     if (lastCharacterIndex >= 0) {
@@ -37,7 +42,6 @@ function getCharacterName(character) {
             return "Tab";
         case '\b':
             return "Backspace";
-        // Add more cases for other special characters if needed
         default:
             return character;
     }
